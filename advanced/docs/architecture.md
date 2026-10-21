@@ -1,57 +1,49 @@
-# Architecture: Basic RAG
+# Architecture: Advanced RAG
 
 ## Flow
 ```
-Ingest (offline, `basic ingest`)
-  data/corpus/*.{md,html,pdf}
-    → load + normalize → PAN/PII scrub → heading-aware chunk
-    → upsert PolicyChunk (Weaviate vectorizes via text2vec-openai)
-    → set superseded_on on older versions
+Ingest (offline, `advanced ingest`)
+  corpus → scrub → heading sections = PARENTS (≤1200 tok)
+         → sentence/list windows = CHILDREN (≤220 tok, 40 tok overlap)
+  PolicySection ← parents (fetched by ID)   PolicyChunk ← children (vectorized)
 
-Query (online, POST /v1/ask)
-  question + filters (card_network?, as_of?)
-    → PAN/PII scrub → hybrid search (BM25 + vector, filtered, top_k)
-    → min_score / max_vector_distance → [none pass → refusal, no LLM call]
-    → prompt assembly (versioned) → OpenAI Responses API (structured output)
-    → citation + fact validation → GroundedAnswer + audit event
+Query (POST /v1/ask {question, history[], card_network?, as_of?})
+  scrub question + history
+  → PLAN (nano): standalone question, ≤3 sub-queries, network, codes, in_scope
+       guard: codes must appear in conversation; network only if exactly one in play
+       failure → regex plan (degraded)          out of scope → refuse
+  → hybrid search per query (children, filtered) ── asyncio.gather
+  → RRF to parents (k=60) → ≤3 per doc → ≤8 candidates → fetch parents
+  → RERANK (nano): grade 0–3 → keep ≥2, top 4      none → refuse (corrective)
+  → ANSWER (mini): structured, cited → validate → GroundedAnswer + audit
 ```
 
-## Collection `PolicyChunk`
-| Property | Type | Vec | Tokenization | Notes |
-|---|---|---|---|---|
-| `content` | text | yes | word | scrubbed body |
-| `doc_title` | text | yes | word | |
-| `doc_id` | text | no | field | stable source ID |
-| `version` | text | no | field | |
-| `section_path` | text | no | field | breadcrumb |
-| `chunk_index` | int | no | – | |
-| `source_type` | text | no | field | `network_rule` \| `internal_sop` \| `playbook` |
-| `card_network` | text | no | field | `visa` \| `mastercard` \| `amex` \| `discover` \| `all` |
-| `reason_codes` | text[] | no | field | e.g., `["10.4"]` |
-| `jurisdiction` | text | no | field | |
-| `effective_date` | date | no | – | version start |
-| `superseded_on` | date | no | – | next version's start, or 2199-12-31 |
-| `content_hash` | text | no | field | SHA-256 |
+## Collections
+| `PolicyChunk` (children) | `PolicySection` (parents) |
+|---|---|
+| `content` (vectorized with `doc_title`), `parent_id` | `content` (not indexed for search) |
+| `doc_id`, `version`, `section_path`, `chunk_index` | `doc_id`, `version`, `section_path`, `section_index` |
+| `card_network`, `reason_codes[]`, `source_type`, `jurisdiction` | `effective_date`, `content_hash` |
+| `effective_date`, `superseded_on`, `content_hash` | |
 
-- Object UUID: `uuid5(doc_id:version:chunk_index)`. Vectorizer: `text2vec-openai` on `content` and `doc_title`; HNSW, cosine.
+IDs are `uuid5(doc:version:s{n})` for parents and `uuid5(doc:version:c{n})` for children. Supersession is filtered on children.
 
-## Chunking
-- Split on headings, then paragraphs. Pack up to 600 tokens; carry ~90 tokens of trailing sentences as overlap. Never split a table or list.
-- Prefix each chunk with its `section_path` breadcrumb so it stands alone.
-- Reason codes come from per-network regex and are matched by BM25.
+## Why these techniques
+| Problem in basic | Technique |
+|---|---|
+| Follow-ups ("and remedies?") lose context | History condensation (planner) |
+| One query misses one side of a comparison | Multi-query + RRF |
+| Small chunks lack context; big chunks dilute retrieval | Parent-child (small-to-big) |
+| Top-k contains near-misses | LLM rerank + corrective gate |
+| One doc crowds out the others | Per-doc candidate cap |
 
-## Retrieval tuning
-`HYBRID_ALPHA` (default 0.5), `TOP_K` (5), `MIN_SCORE` (0), and `MAX_VECTOR_DISTANCE` (0.75) are tuned only with the eval gate.
-
-## API contract
-`POST /v1/ask` takes `{question, card_network?, as_of?}` and returns `{answer, citations[{doc_id, section_path, effective_date}], refused, query_id, prompt_version, notice}`.
-The gateway verifies the SSO JWT and forwards roles in `X-Auth-Roles`; the service requires `disputes.read` (otherwise 403). Errors are RFC 9457 `application/problem+json`.
+## API
+`POST /v1/ask` returns basic's fields plus `standalone_question`. History has at most 20 turns (the planner reads the last 6), roles `user|assistant`, and is scrubbed. Auth is `X-Auth-Roles: disputes.read`. Audit records the plan (network, codes, sub-query count, degraded), candidate IDs, rerank scores, and refusal reason.
 
 ## NFR targets
-| NFR | Target |
-|---|---|
-| Latency | p95 < 3 s end to end |
-| Retrieval quality | recall@5 ≥ 0.90 on the golden set |
-| Faithfulness | citation accuracy ≥ 0.95 |
-| Safety | 0 PAN/PII in index, logs, LLM payloads |
-| Cost | < $0.01 avg per query |
+| NFR | Target | Last measured |
+|---|---|---|
+| recall@5 / citation accuracy | ≥ 0.90 / ≥ 0.95 | 1.00 / 0.96–1.00 |
+| Refusal precision / recall | ≥ 0.95 | 1.00 / 1.00 |
+| p95 latency | < 6 s | 5.8–6.0 s typical, 7.7 s worst run (median ≈ 4.5 s, about 1.3 s per LLM call) |
+| Safety | 0 PAN/PII in index, logs, LLM payloads | scrubber + tests |

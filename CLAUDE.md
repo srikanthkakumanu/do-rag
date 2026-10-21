@@ -1,26 +1,27 @@
 # do-rag: RAG reference implementations (payments domain)
 
-This repo holds independent RAG variants. All of them serve one use case: a **Dispute & Chargeback Policy Assistant** for payments operations.
+This repo holds three **independent** RAG projects. All of them serve one use case: a **Dispute & Chargeback Policy Assistant** for payments operations.
 
 ## Repo map
-- `basic/`: Basic RAG (Weaviate hybrid retrieval + OpenAI). **Active.**
-- `advanced/`, `hybrid/`: planned. Do not create them unless asked.
-- `.claude/rules/`: path-scoped rules, prefixed by variant (`basic-*.md`).
+- `basic/`: single-shot hybrid retrieval → cited answer. Weaviate + OpenAI.
+- `advanced/`: query planning, multi-query + RRF, parent-child chunks, LLM rerank, multi-turn.
+- `hybrid/`: vector retrieval (Weaviate) + knowledge graph (Neo4j), fused into one cited answer.
 
 ## Shared rules
-- Each variant is self-contained: its own `pyproject.toml`, `uv` env, `docker-compose.yml`, and tests. Never import across variants. Share code only after an ADR in `<variant>/docs/adr/`.
+- Each variant is self-contained: its own `pyproject.toml`, `uv` env, `.env`, `docker-compose.yml` (distinct ports), corpus copy, and tests. Never import across variants.
 - Run commands from the variant directory (e.g., `cd basic && uv run pytest`).
-- IMPORTANT: Never read, print, or edit `.env` files. Reference config by key name only. See `.claude/rules/security-compliance.md`.
-- Prefer editing existing files over adding new ones. Keep diffs minimal and focused.
-- Before you say a task is done, run that variant's test, lint, and type check.
+- IMPORTANT: Never read, print, or edit any `.env`. Reference config by key name only. Only `OPENAI_API_KEY` is required; models default in each `config.py`.
+- Keep diffs minimal; prefer editing existing files.
+- Before you say a task is done, run that variant's tests, ruff, and mypy, plus the eval gate when it applies.
 
 ## Instruction layers
 | Layer | Location | Loads |
 |---|---|---|
 | Repo | `CLAUDE.md` (this file) | always |
 | Security | `.claude/rules/security-compliance.md` | always |
+| Shared code rules | `.claude/rules/python.md`, `testing-eval.md` | on `*.py` / tests / eval in any variant |
 | Variant | `<variant>/CLAUDE.md` | in that variant |
-| Rules | `.claude/rules/<variant>-*.md` | on matching paths |
+| Variant rules | `.claude/rules/<variant>-*.md` | on matching paths |
 | Module | `<variant>/src/<pkg>/<module>/CLAUDE.md` | in that module |
 | Personal | `CLAUDE.local.md` (git-ignored) | always, if present |
 
@@ -28,5 +29,5 @@ Lower layers may tighten a rule, never loosen it. Each fact lives in one layer; 
 
 ## Working efficiently
 - Use the Explore subagent for broad codebase searches; keep the main context for edits.
-- Read `<variant>/docs/architecture.md` only when changing schema, chunking, or data flow.
+- Read `<variant>/docs/architecture.md` only when changing schema, chunking, graph, or data flow.
 - When context is compacted, keep: the current task, failing test output, and the non-negotiables.

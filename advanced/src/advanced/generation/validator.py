@@ -21,7 +21,10 @@ class ValidationResult:
     reason: str | None = None
 
 
-def validate(answer: LLMAnswer, sent: tuple[RetrievedSection, ...]) -> ValidationResult:
+def validate(
+    answer: LLMAnswer, sent: tuple[RetrievedSection, ...], question: str = ""
+) -> ValidationResult:
+    """Facts must come from a cited section, or be echoed from the user's own question."""
     if answer.refused:
         return ValidationResult(ok=True)
     if not answer.citations:
@@ -36,7 +39,7 @@ def validate(answer: LLMAnswer, sent: tuple[RetrievedSection, ...]) -> Validatio
         cited.append(chunk)
 
     body = _CITATION_MARK.sub(" ", answer.answer)
-    cited_text = "\n".join(c.content for c in cited)
+    cited_text = "\n".join([question, *(c.content for c in cited)])
     for token in _FACT_TOKEN.findall(body):
         if not re.search(rf"(?<![\w.]){re.escape(token)}(?![\w])", cited_text):
             return ValidationResult(ok=False, reason="unsupported_fact")

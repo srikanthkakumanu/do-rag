@@ -47,4 +47,4 @@ uv run python -m eval.run --report eval/reports/<date>.json
 - Data flow, schema, NFRs: `docs/architecture.md` (read on demand)
 - Shared types and constants: `src/basic/domain.py`; Weaviate plumbing: `src/basic/vectordb.py`
 - Module contracts: `src/basic/{ingestion,retrieval,generation}/CLAUDE.md`
-- Coding rules load automatically from `.claude/rules/basic-*.md`
+- Coding rules load automatically: shared `python.md` and `testing-eval.md`, plus `basic-*.md`

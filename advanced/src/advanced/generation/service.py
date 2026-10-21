@@ -49,7 +49,7 @@ async def answer_question(
     if result is None:
         return refusal(prompt_version=version, model=answerer.model)
 
-    check = validate(result, prompt.sections)
+    check = validate(result, prompt.sections, question)
     if not check.ok:
         log.warning("refusal", reason=check.reason)
         return refusal(prompt_version=version, model=answerer.model)

@@ -19,7 +19,7 @@ from advanced.llm import StructuredLLM
 
 log = structlog.get_logger(__name__)
 PROMPT: Final = Path(__file__).parent / "prompts" / "rerank_v1.md"
-EXCERPT_TOKENS: Final = 350
+EXCERPT_TOKENS: Final = 250
 
 
 class Grade(BaseModel):
