@@ -17,7 +17,7 @@ Scope: one retrieval step, then one generation step. No query rewriting, reranki
 ## Quick start
 ```bash
 cd basic
-cp .env.example .env            # add OPENAI_API_KEY (and OPENAI_CHAT_MODEL)
+cp .env.example .env            # add OPENAI_API_KEY (the only required value)
 uv sync
 docker compose up -d --wait weaviate
 uv run python -m migrations.apply

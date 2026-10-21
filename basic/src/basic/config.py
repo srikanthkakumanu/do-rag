@@ -25,11 +25,11 @@ class Settings(BaseSettings):
 
     # OpenAI
     openai_api_key: SecretStr = Field(default=SecretStr(""))
-    openai_chat_model: str = ""
+    openai_chat_model: str = "gpt-5.4-mini"  # override with OPENAI_CHAT_MODEL
     openai_embed_model: str = "text-embedding-3-small"
     openai_temperature: float | None = Field(default=None, ge=0.0, le=0.2)
     # Reasoning models only (e.g., gpt-5.x); omitted when unset.
-    openai_reasoning_effort: Literal["none", "minimal", "low", "medium", "high"] | None = None
+    openai_reasoning_effort: Literal["none", "minimal", "low", "medium", "high"] | None = "low"
     openai_timeout_s: float = Field(default=30.0, gt=0)
     max_output_tokens: int = Field(default=600, gt=0)
 

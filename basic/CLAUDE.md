@@ -15,7 +15,7 @@ Scope is single-shot retrieve → generate. No agents, query rewriting, rerankin
 | Quality | pytest, testcontainers, ruff, mypy `--strict` |
 | Ops | structlog (JSON), OpenTelemetry |
 
-Config keys are listed in `.env.example`. You create the real `.env`; it is git-ignored and never read by Claude.
+Config keys are listed in `.env.example`; only `OPENAI_API_KEY` is required (models default in `config.py`). You create the real `.env`; it is git-ignored and never read by Claude.
 
 ## Commands (run from `basic/`)
 ```bash

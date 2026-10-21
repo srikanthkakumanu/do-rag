@@ -51,5 +51,12 @@ def test_compute_metrics_and_gate() -> None:
 
 
 def test_fast_model_falls_back_to_chat_model() -> None:
-    assert make_settings().fast_model == "test-model"
+    assert make_settings(openai_fast_model="").fast_model == "test-model"
     assert make_settings(openai_fast_model="nano").fast_model == "nano"
+
+
+def test_only_api_key_is_required_models_have_defaults() -> None:
+    from advanced.config import Settings
+
+    s = Settings(_env_file=None)
+    assert (s.openai_chat_model, s.openai_fast_model) == ("gpt-5.4-mini", "gpt-5.4-nano")

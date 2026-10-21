@@ -48,3 +48,10 @@ def test_compute_metrics_and_gate() -> None:
     assert m["refusal_precision"] == 1.0
     assert m["refusal_recall"] == 1.0
     assert "recall_at_5" in gate(m)
+
+
+def test_only_api_key_is_required_model_has_default() -> None:
+    from basic.config import Settings
+
+    s = Settings(_env_file=None)
+    assert s.openai_chat_model == "gpt-5.4-mini"

@@ -6,7 +6,7 @@ paths:
 
 ## Client
 - Use the official `openai` SDK with one `AsyncOpenAI` instance, injected through a `Protocol`. Never construct it per request.
-- Call the **Responses API** (`client.responses.parse` with `text_format=LLMAnswer`, `store=False`). Read the model from `settings.openai_chat_model`; never hardcode a model ID.
+- Call the **Responses API** (`client.responses.parse` with `text_format=LLMAnswer`, `store=False`). Read the model from `settings.openai_chat_model` (default `gpt-5.4-mini`; only `OPENAI_API_KEY` is required); never hardcode a model ID elsewhere.
 - Set `timeout` explicitly and `max_retries=2`. The SDK backs off on 429/5xx. Surface final failures as `GenerationError`.
 - Use structured output by parsing into `LLMAnswer` (`answer`, `citations[{doc_id, section_path}]`, `refused`). The service maps it to `GroundedAnswer`.
 - Optional parameters use the SDK `omit` sentinel: `temperature` (≤ 0.2, non-reasoning models only) and `reasoning={"effort": ...}` (gpt-5.x; `low` keeps p95 under 3 s). Always set `max_output_tokens` (default 600). Reasoning tokens count against it.
