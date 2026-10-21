@@ -2,17 +2,18 @@
 
 ## Flow
 ```
-Ingest (offline)
-  data/corpus/*.{md,pdf,html}
+Ingest (offline, `basic ingest`)
+  data/corpus/*.{md,html,pdf}
     → load + normalize → PAN/PII scrub → heading-aware chunk
     → upsert PolicyChunk (Weaviate vectorizes via text2vec-openai)
+    → set superseded_on on older versions
 
 Query (online, POST /v1/ask)
   question + filters (card_network?, as_of?)
     → PAN/PII scrub → hybrid search (BM25 + vector, filtered, top_k)
-    → score threshold → [none pass → refusal, no LLM call]
+    → min_score / max_vector_distance → [none pass → refusal, no LLM call]
     → prompt assembly (versioned) → OpenAI Responses API (structured output)
-    → citation validation → GroundedAnswer + audit event
+    → citation + fact validation → GroundedAnswer + audit event
 ```
 
 ## Collection `PolicyChunk`
@@ -22,29 +23,29 @@ Query (online, POST /v1/ask)
 | `doc_title` | text | yes | word | |
 | `doc_id` | text | no | field | stable source ID |
 | `version` | text | no | field | |
-| `section_path` | text | no | field | e.g., `Visa > 10.4 > Remedies` |
+| `section_path` | text | no | field | breadcrumb |
 | `chunk_index` | int | no | – | |
 | `source_type` | text | no | field | `network_rule` \| `internal_sop` \| `playbook` |
 | `card_network` | text | no | field | `visa` \| `mastercard` \| `amex` \| `discover` \| `all` |
-| `reason_codes` | text[] | no | field | e.g., `["10.4"]`, `["4853"]` |
-| `jurisdiction` | text | no | field | `US`, `EU`, `global` |
-| `effective_date` | date | no | – | supersession filter |
+| `reason_codes` | text[] | no | field | e.g., `["10.4"]` |
+| `jurisdiction` | text | no | field | |
+| `effective_date` | date | no | – | version start |
+| `superseded_on` | date | no | – | next version's start, or 2199-12-31 |
 | `content_hash` | text | no | field | SHA-256 |
 
-- Object UUID: `uuid5(doc_id:version:chunk_index)`.
-- Vectorizer: `text2vec-openai` on `content` and `doc_title`. Index: HNSW, cosine distance.
+- Object UUID: `uuid5(doc_id:version:chunk_index)`. Vectorizer: `text2vec-openai` on `content` and `doc_title`; HNSW, cosine.
 
 ## Chunking
-- Split on headings first, then on paragraphs. Target 400–600 tokens with ~15% overlap. Never split a table or a numbered evidence list.
-- Prefix each chunk with its `section_path` breadcrumb, so it still makes sense when retrieved alone.
-- Extract reason codes with per-network regex during ingestion. This metadata drives BM25 and filters.
+- Split on headings, then paragraphs. Pack up to 600 tokens; carry ~90 tokens of trailing sentences as overlap. Never split a table or list.
+- Prefix each chunk with its `section_path` breadcrumb so it stands alone.
+- Reason codes come from per-network regex and are matched by BM25.
 
 ## Retrieval tuning
-`HYBRID_ALPHA` (0 = BM25, 1 = vector; default 0.5), `TOP_K` (5), and `MIN_SCORE` (tuned on eval) are set in `.env.example`.
+`HYBRID_ALPHA` (default 0.5), `TOP_K` (5), `MIN_SCORE` (0), and `MAX_VECTOR_DISTANCE` (0.75) are tuned only with the eval gate.
 
 ## API contract
-`POST /v1/ask` takes `{question, card_network?, as_of?}` and returns `{answer, citations[{doc_id, section_path, effective_date}], refused, query_id, prompt_version}`.
-Authentication is via the upstream gateway (an internal SSO JWT). The service checks for the `disputes.read` role.
+`POST /v1/ask` takes `{question, card_network?, as_of?}` and returns `{answer, citations[{doc_id, section_path, effective_date}], refused, query_id, prompt_version, notice}`.
+The gateway verifies the SSO JWT and forwards roles in `X-Auth-Roles`; the service requires `disputes.read` (otherwise 403). Errors are RFC 9457 `application/problem+json`.
 
 ## NFR targets
 | NFR | Target |
@@ -53,7 +54,4 @@ Authentication is via the upstream gateway (an internal SSO JWT). The service ch
 | Retrieval quality | recall@5 ≥ 0.90 on the golden set |
 | Faithfulness | citation accuracy ≥ 0.95 |
 | Safety | 0 PAN/PII in index, logs, LLM payloads |
-| Availability | 99.5% (internal tool) |
 | Cost | < $0.01 avg per query |
-| Freshness | Updates searchable < 24 h |
-

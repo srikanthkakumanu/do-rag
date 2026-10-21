@@ -4,7 +4,7 @@ RAG reference implementations for a payments use case: a **Dispute & Chargeback 
 
 | Variant | Status | Stack |
 |---|---|---|
-| `basic/` | Instructions defined | Python 3.12, FastAPI, Weaviate (hybrid search), OpenAI |
+| [`basic/`](basic/README.md) | Implemented, tested (63 tests, eval gate passed) | Python 3.12, FastAPI, Weaviate (hybrid search), OpenAI |
 | `advanced/` | Planned | – |
 | `hybrid/` | Planned | – |
 
