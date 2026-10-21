@@ -1,0 +1,71 @@
+[project]
+name = "advanced"
+version = "0.1.0"
+description = "Advanced RAG: Dispute & Chargeback Policy Assistant (query planning, multi-query, parent-child, LLM rerank)"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "pydantic>=2.8",
+    "pydantic-settings>=2.4",
+    "weaviate-client>=4.10",
+    "openai>=1.60",
+    "structlog>=24.1",
+    "opentelemetry-api>=1.25",
+    "tiktoken>=0.8",
+    "pypdf>=5.0",
+]
+
+[project.scripts]
+advanced = "advanced.ingestion.cli:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.27",
+    "testcontainers>=4.8",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "fastapi[standard]>=0.115",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/advanced"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
+markers = ["integration: needs Docker (real Weaviate via testcontainers)"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["**/*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "ANN", "S", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S105", "S106"]
+"eval/**" = ["S101"]
+"src/advanced/ingestion/scrub.py" = ["S105"]  # redaction tokens, not passwords
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "src"
+packages = ["advanced"]
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["testcontainers.*", "pypdf.*"]
+ignore_missing_imports = true

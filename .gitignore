@@ -21,8 +21,8 @@ build/
 *.egg-info/
 
 # Data
-basic/data/raw/
-basic/eval/reports/
+**/data/raw/
+**/eval/reports/
 
 # OS / IDE
 .DS_Store
