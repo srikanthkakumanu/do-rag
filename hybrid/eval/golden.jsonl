@@ -1,0 +1,58 @@
+{"question": "What is the response window for a Visa 10.4 dispute?", "expected_doc_ids": ["visa-10-4"], "must_refuse": false, "card_network": "visa"}
+{"question": "What evidence remedies a Visa 10.4 card-absent fraud dispute?", "expected_doc_ids": ["visa-10-4"], "must_refuse": false, "card_network": "visa"}
+{"question": "How old must prior transactions be for Compelling Evidence 3.0?", "expected_doc_ids": ["visa-10-4"], "must_refuse": false, "card_network": "visa"}
+{"question": "Which data elements must match under Visa CE 3.0?", "expected_doc_ids": ["visa-10-4"], "must_refuse": false, "card_network": "visa"}
+{"question": "Is an AVS match enough to defend a 10.4 dispute?", "expected_doc_ids": ["visa-10-4"], "must_refuse": false, "card_network": "visa"}
+{"question": "Does 3-D Secure shift liability for Visa reason code 10.4?", "expected_doc_ids": ["visa-10-4"], "must_refuse": false, "card_network": "visa"}
+{"question": "How many prior undisputed transactions does CE 3.0 require?", "expected_doc_ids": ["visa-10-4"], "must_refuse": false}
+{"question": "When does reason code 10.4 apply?", "expected_doc_ids": ["visa-10-4"], "must_refuse": false}
+{"question": "How long must a cardholder wait before filing a Visa 13.1 dispute?", "expected_doc_ids": ["visa-13-1"], "must_refuse": false, "card_network": "visa"}
+{"question": "What proves delivery for Visa 13.1 merchandise not received?", "expected_doc_ids": ["visa-13-1"], "must_refuse": false, "card_network": "visa"}
+{"question": "How do I defend a 13.1 dispute for digital goods?", "expected_doc_ids": ["visa-13-1"], "must_refuse": false}
+{"question": "What is the merchant response time for Visa 13.1?", "expected_doc_ids": ["visa-13-1"], "must_refuse": false, "card_network": "visa"}
+{"question": "Is cancellation before delivery a remedy for 13.1?", "expected_doc_ids": ["visa-13-1"], "must_refuse": false}
+{"question": "What is the second presentment deadline for Mastercard 4853?", "expected_doc_ids": ["mc-4853"], "must_refuse": false, "card_network": "mastercard"}
+{"question": "What must a cardholder do first for a not as described 4853 dispute?", "expected_doc_ids": ["mc-4853"], "must_refuse": false, "card_network": "mastercard"}
+{"question": "What remedies exist for Mastercard cardholder disputes?", "expected_doc_ids": ["mc-4853"], "must_refuse": false, "card_network": "mastercard"}
+{"question": "Can proof of an existing credit defend reason code 4853?", "expected_doc_ids": ["mc-4853"], "must_refuse": false}
+{"question": "Which situations does Mastercard 4853 cover?", "expected_doc_ids": ["mc-4853"], "must_refuse": false, "card_network": "mastercard"}
+{"question": "How do I fight a Mastercard 4837 no authorization chargeback?", "expected_doc_ids": ["mc-4837"], "must_refuse": false, "card_network": "mastercard"}
+{"question": "What is the response window for Mastercard 4837?", "expected_doc_ids": ["mc-4837"], "must_refuse": false, "card_network": "mastercard"}
+{"question": "When can an issuer not use reason code 4837?", "expected_doc_ids": ["mc-4837"], "must_refuse": false}
+{"question": "Does a chip read help defend a 4837 dispute?", "expected_doc_ids": ["mc-4837"], "must_refuse": false, "card_network": "mastercard"}
+{"question": "How many days does a merchant have to respond to Amex C08?", "expected_doc_ids": ["amex-core"], "must_refuse": false, "card_network": "amex"}
+{"question": "What evidence defends an American Express F29 dispute?", "expected_doc_ids": ["amex-core"], "must_refuse": false, "card_network": "amex"}
+{"question": "What does Amex code C08 mean?", "expected_doc_ids": ["amex-core"], "must_refuse": false}
+{"question": "Does SafeKey authentication help with F29?", "expected_doc_ids": ["amex-core"], "must_refuse": false, "card_network": "amex"}
+{"question": "What remedies apply to Amex goods not received disputes?", "expected_doc_ids": ["amex-core"], "must_refuse": false, "card_network": "amex"}
+{"question": "What is the response time for Discover UA02?", "expected_doc_ids": ["discover-fraud"], "must_refuse": false, "card_network": "discover"}
+{"question": "What evidence defends a Discover card not present fraud dispute?", "expected_doc_ids": ["discover-fraud"], "must_refuse": false, "card_network": "discover"}
+{"question": "What is the primary remedy for Discover UA01?", "expected_doc_ids": ["discover-fraud"], "must_refuse": false}
+{"question": "Does ProtectBuy help with UA02 disputes?", "expected_doc_ids": ["discover-fraud"], "must_refuse": false, "card_network": "discover"}
+{"question": "What is the maximum PDF size for dispute evidence?", "expected_doc_ids": ["sop-evidence"], "must_refuse": false}
+{"question": "How should evidence files be named?", "expected_doc_ids": ["sop-evidence"], "must_refuse": false}
+{"question": "What goes in the evidence cover letter?", "expected_doc_ids": ["sop-evidence"], "must_refuse": false}
+{"question": "Which dispute packages need a second analyst review?", "expected_doc_ids": ["sop-evidence"], "must_refuse": false}
+{"question": "Can I include full card numbers in evidence packages?", "expected_doc_ids": ["sop-evidence"], "must_refuse": false}
+{"question": "How many days before the network deadline must representment packages be submitted?", "expected_doc_ids": ["sop-deadlines"], "must_refuse": false}
+{"question": "When is a dispute case escalated to the team lead?", "expected_doc_ids": ["sop-deadlines"], "must_refuse": false}
+{"question": "What is our internal submission buffer for representments?", "expected_doc_ids": ["sop-deadlines"], "must_refuse": false}
+{"question": "What are the signals of friendly fraud?", "expected_doc_ids": ["playbook-friendly-fraud"], "must_refuse": false}
+{"question": "When should we fight a friendly fraud dispute?", "expected_doc_ids": ["playbook-friendly-fraud"], "must_refuse": false}
+{"question": "What happens to customers when we accept a friendly fraud dispute?", "expected_doc_ids": ["playbook-friendly-fraud"], "must_refuse": false}
+{"question": "What is the interchange fee for a Visa debit card?", "expected_doc_ids": [], "must_refuse": true}
+{"question": "How do I reset my online banking password?", "expected_doc_ids": [], "must_refuse": true}
+{"question": "What is the weather in London today?", "expected_doc_ids": [], "must_refuse": true}
+{"question": "Should we sue the cardholder for filing a false dispute?", "expected_doc_ids": [], "must_refuse": true}
+{"question": "What is the JCB response window for fraud disputes?", "expected_doc_ids": [], "must_refuse": true}
+{"question": "What are the PCI DSS requirements for storing CVV?", "expected_doc_ids": [], "must_refuse": true}
+{"question": "Explain the UnionPay chargeback reason codes.", "expected_doc_ids": [], "must_refuse": true}
+{"question": "What is our company's revenue this quarter?", "expected_doc_ids": [], "must_refuse": true}
+{"question": "Which reason codes give the merchant 45 days to respond?", "expected_doc_ids": ["mc-4853", "mc-4837"], "must_refuse": false}
+{"question": "Which reason codes have a 30 day merchant response window?", "expected_doc_ids": ["visa-10-4", "visa-13-1", "discover-fraud"], "must_refuse": false}
+{"question": "List the fraud reason codes for each card network.", "expected_doc_ids": ["visa-10-4", "mc-4837", "amex-core", "discover-fraud"], "must_refuse": false}
+{"question": "What are the response windows for every Mastercard reason code?", "expected_doc_ids": ["mc-4853", "mc-4837"], "must_refuse": false}
+{"question": "Which reason codes accept proof of delivery as a remedy?", "expected_doc_ids": ["visa-13-1", "amex-core"], "must_refuse": false}
+{"question": "Compare remedies for card-not-present fraud across Visa, Amex and Discover.", "expected_doc_ids": ["visa-10-4", "amex-core", "discover-fraud"], "must_refuse": false}
+{"question": "Which Amex codes have a 20 day response time?", "expected_doc_ids": ["amex-core"], "must_refuse": false}
+{"question": "Which evidence is not sufficient on its own for Visa 10.4?", "expected_doc_ids": ["visa-10-4"], "must_refuse": false}

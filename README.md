@@ -5,10 +5,17 @@ Three independent RAG implementations for one payments use case: a **Dispute & C
 | Project | Approach | Status |
 |---|---|---|
 | [`basic/`](basic/README.md) | Single-shot: Weaviate hybrid search → OpenAI cited answer | Done: 64 tests, eval gate passed |
-| [`advanced/`](advanced/README.md) | Query planning, multi-query + RRF, parent-child chunks, LLM rerank, multi-turn | Done: 90 tests; quality gates pass, p95 latency borderline |
-| [`hybrid/`](hybrid/README.md) | Weaviate vector search + Neo4j knowledge graph, fused | In progress |
+| [`advanced/`](advanced/README.md) | Query planning, multi-query + RRF, parent-child chunks, LLM rerank, multi-turn | Done: 91 tests; quality gates pass, p95 latency borderline (~6 s) |
+| [`hybrid/`](hybrid/README.md) | Weaviate vector search + Neo4j knowledge graph, fused | Done: 87 tests, eval gate passed (incl. coverage) |
 
 Each project has its own `pyproject.toml`, `.env`, Docker Compose (distinct ports), corpus, and tests. Only `OPENAI_API_KEY` is required in each `.env`.
+
+## Ports
+| Project | Weaviate (HTTP/gRPC) | Neo4j (HTTP/Bolt) | API (suggested) |
+|---|---|---|---|
+| basic | 8080 / 50051 | – | 8000 |
+| advanced | 8081 / 50052 | – | 8001 |
+| hybrid | 8082 / 50053 | 7475 / 7688 | 8002 |
 
 ## Instruction layers (Claude Code)
 ```

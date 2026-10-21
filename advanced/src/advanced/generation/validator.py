@@ -15,6 +15,45 @@ _CITATION_MARK: Final = re.compile(r"\[[^\[\]]*§[^\[\]]*\]")
 _FACT_TOKEN: Final = re.compile(r"\b(?:[A-Z]{1,2}\d{2}|\d+(?:[.,]\d+)*)\b")
 
 
+_NUMBER_WORDS: Final = {
+    w: str(i)
+    for i, w in enumerate(
+        [
+            "zero",
+            "one",
+            "two",
+            "three",
+            "four",
+            "five",
+            "six",
+            "seven",
+            "eight",
+            "nine",
+            "ten",
+            "eleven",
+            "twelve",
+            "thirteen",
+            "fourteen",
+            "fifteen",
+            "sixteen",
+            "seventeen",
+            "eighteen",
+            "nineteen",
+            "twenty",
+        ]
+    )
+} | {"thirty": "30", "forty": "40", "forty-five": "45", "sixty": "60", "ninety": "90"}
+_WORD_RX: Final = re.compile(
+    r"\b(" + "|".join(sorted(_NUMBER_WORDS, key=len, reverse=True)) + r")\b", re.I
+)
+
+
+def with_number_words(text: str) -> str:
+    """Append digit forms of spelled-out numbers ("two" also supports "2")."""
+    digits = {_NUMBER_WORDS[m.group(1).lower()] for m in _WORD_RX.finditer(text)}
+    return f"{text}\n{' '.join(sorted(digits))}" if digits else text
+
+
 @dataclass(frozen=True, slots=True)
 class ValidationResult:
     ok: bool
@@ -39,7 +78,7 @@ def validate(
         cited.append(chunk)
 
     body = _CITATION_MARK.sub(" ", answer.answer)
-    cited_text = "\n".join([question, *(c.content for c in cited)])
+    cited_text = with_number_words("\n".join([question, *(c.content for c in cited)]))
     for token in _FACT_TOKEN.findall(body):
         if not re.search(rf"(?<![\w.]){re.escape(token)}(?![\w])", cited_text):
             return ValidationResult(ok=False, reason="unsupported_fact")

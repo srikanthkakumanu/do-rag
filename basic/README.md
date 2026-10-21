@@ -39,7 +39,7 @@ The response has `answer`, `citations[{doc_id, section_path, effective_date}]`, 
 
 ## Tests and quality gate
 ```bash
-uv run pytest -m "not integration"     # 55 unit tests, no Docker
+uv run pytest -m "not integration"     # 56 unit tests, no Docker
 uv run pytest -m integration           # 8 tests on a real Weaviate container (fake vectors, no OpenAI)
 uv run ruff check . && uv run mypy src migrations eval tests
 uv run python -m eval.run --report eval/reports/$(date +%F).json   # needs .env + ingested corpus

@@ -113,3 +113,12 @@ def test_validate_allows_facts_echoed_from_question() -> None:
     answer = cited_answer("For packages above 500 USD, respond within 30 days.", ("visa-10-4", SEC))
     assert validate(answer, (make_section(),)).reason == "unsupported_fact"
     assert validate(answer, (make_section(),), "Who reviews packages above 500 USD?").ok
+
+
+def test_validate_accepts_digit_for_spelled_out_number() -> None:
+    sec = make_section(content="Fight when at least two signals are present.")
+    assert validate(
+        cited_answer("Fight when 2 signals are present.", ("visa-10-4", SEC)), (sec,)
+    ).ok
+    bad = cited_answer("Fight when 3 signals are present.", ("visa-10-4", SEC))
+    assert validate(bad, (sec,)).reason == "unsupported_fact"

@@ -42,7 +42,7 @@ The response includes `standalone_question` (here: *"What remedies apply for Mas
 
 ## Tests and quality gate
 ```bash
-uv run pytest -m "not integration"   # 83 unit tests
+uv run pytest -m "not integration"   # 84 unit tests
 uv run pytest -m integration         # 7 tests on a real Weaviate container (no OpenAI)
 uv run ruff check . && uv run mypy src migrations eval tests
 uv run python -m eval.run --report eval/reports/$(date +%F).json
