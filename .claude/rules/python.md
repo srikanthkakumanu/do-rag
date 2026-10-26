@@ -1,8 +1,8 @@
 ---
 paths:
-  - "basic/**/*.py"
-  - "advanced/**/*.py"
-  - "hybrid/**/*.py"
+  - "basic-rag/**/*.py"
+  - "advanced-rag/**/*.py"
+  - "hybrid-rag/**/*.py"
 ---
 # Python conventions (all variants)
 

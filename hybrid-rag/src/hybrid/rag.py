@@ -58,7 +58,7 @@ class HybridRag:
             ),
         )
         # `in_scope=False` only means "the graph has nothing to add": skip it. Scope and
-        # refusal stay with the grounded answer step (as in basic/), never the graph planner.
+        # refusal stay with the grounded answer step (as in basic-rag/), never the graph planner.
         facts: list[GraphFact] = await self._graph.facts(plan, when) if plan.in_scope else []
         result = await answer_question(
             question, chunks, facts, answerer=self._answerer, settings=self._settings

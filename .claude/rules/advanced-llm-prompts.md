@@ -1,12 +1,12 @@
 ---
 paths:
-  - "advanced/src/advanced/llm.py"
-  - "advanced/src/advanced/query/**"
-  - "advanced/src/advanced/retrieval/reranker.py"
-  - "advanced/src/advanced/retrieval/prompts/**"
-  - "advanced/src/advanced/generation/**"
+  - "advanced-rag/src/advanced/llm.py"
+  - "advanced-rag/src/advanced/query/**"
+  - "advanced-rag/src/advanced/retrieval/reranker.py"
+  - "advanced-rag/src/advanced/retrieval/prompts/**"
+  - "advanced-rag/src/advanced/generation/**"
 ---
-# LLM & prompt conventions (advanced/, OpenAI)
+# LLM & prompt conventions (advanced-rag/, OpenAI)
 
 ## One gateway, three calls
 - Every model call goes through `StructuredLLM.parse(..., schema=..., purpose=...)` in `advanced/llm.py`: Responses API, `store=False`, structured output, and `omit` for unset `temperature`/`reasoning`.

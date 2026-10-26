@@ -1,12 +1,12 @@
 ---
 paths:
-  - "basic/src/basic/ingestion/**"
-  - "basic/src/basic/retrieval/**"
-  - "basic/migrations/**"
+  - "basic-rag/src/basic/ingestion/**"
+  - "basic-rag/src/basic/retrieval/**"
+  - "basic-rag/migrations/**"
 ---
-# Weaviate conventions (basic/)
+# Weaviate conventions (basic-rag/)
 
-The schema and chunking design live in `basic/docs/architecture.md`. Read it before changing either.
+The schema and chunking design live in `basic-rag/docs/architecture.md`. Read it before changing either.
 
 ## Client
 - IMPORTANT: Use only the **v4 Python client** collections API. Never use v3 patterns (`client.query.get`, `client.schema`, `weaviate.Client(...)`).
@@ -34,7 +34,7 @@ res = await chunks.query.hybrid(
 - DATE values are int64 nanoseconds (max year 2262). Use `NOT_SUPERSEDED` (2199-12-31), never 9999.
 
 ## Schema
-- Schema changes go only through versioned scripts in `basic/migrations/NNNN_<name>.py`. Never create collections ad hoc in app code.
+- Schema changes go only through versioned scripts in `basic-rag/migrations/NNNN_<name>.py`. Never create collections ad hoc in app code.
 - The vectorizer is `text2vec-openai`, and its model comes from `OPENAI_EMBED_MODEL`. Changing the model, dimensions, or vectorized properties requires a new collection and a full re-index. Never mutate it in place.
 - Only `content` and `doc_title` are vectorized (`source_properties`). Tests use `Configure.Vectors.self_provided()` (`WEAVIATE_VECTORIZER=none`).
 - Keep keyword tokenization on `reason_codes` and `doc_id`, so BM25 matches exact codes like `10.4` and `4853`.

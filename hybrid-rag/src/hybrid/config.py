@@ -13,7 +13,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 type Vectorizer = Literal["text2vec-openai", "none"]
 type ReasoningEffort = Literal["none", "minimal", "low", "medium", "high"]
 
-# This project's own .env (hybrid/.env), independent of the working directory.
+# This project's own .env (hybrid-rag/.env), independent of the working directory.
 PROJECT_ENV_FILE: Final = Path(__file__).resolve().parents[2] / ".env"
 
 

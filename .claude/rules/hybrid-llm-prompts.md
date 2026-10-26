@@ -1,13 +1,13 @@
 ---
 paths:
-  - "hybrid/src/hybrid/llm.py"
-  - "hybrid/src/hybrid/ingestion/extract.py"
-  - "hybrid/src/hybrid/ingestion/prompts/**"
-  - "hybrid/src/hybrid/graph/planner.py"
-  - "hybrid/src/hybrid/graph/prompts/**"
-  - "hybrid/src/hybrid/generation/**"
+  - "hybrid-rag/src/hybrid/llm.py"
+  - "hybrid-rag/src/hybrid/ingestion/extract.py"
+  - "hybrid-rag/src/hybrid/ingestion/prompts/**"
+  - "hybrid-rag/src/hybrid/graph/planner.py"
+  - "hybrid-rag/src/hybrid/graph/prompts/**"
+  - "hybrid-rag/src/hybrid/generation/**"
 ---
-# LLM & prompt conventions (hybrid/, OpenAI)
+# LLM & prompt conventions (hybrid-rag/, OpenAI)
 
 ## One gateway, three calls
 - Every model call goes through `StructuredLLM.parse(..., schema=..., purpose=...)` in `hybrid/llm.py`: Responses API, `store=False`, structured output, and `omit` for unset `temperature`/`reasoning`.

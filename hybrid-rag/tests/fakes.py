@@ -31,7 +31,7 @@ DIMS = 128
 
 
 def make_settings(**overrides: object) -> Settings:
-    """Settings isolated from any real hybrid/.env file."""
+    """Settings isolated from any real hybrid-rag/.env file."""
     base: dict[str, object] = {"openai_chat_model": "test-model", "_env_file": None}
     base.update(overrides)
     return Settings(**base)  # type: ignore[arg-type]  # reason: dynamic overrides in tests

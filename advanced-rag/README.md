@@ -1,6 +1,6 @@
 # Advanced RAG: Dispute & Chargeback Policy Assistant
 
-Same use case and grounding contract as [`basic/`](../basic/README.md): **cited answers or a refusal**. It adds the techniques that fix single-shot RAG's typical failures:
+Same use case and grounding contract as [`basic-rag/`](../basic-rag/README.md): **cited answers or a refusal**. It adds the techniques that fix single-shot RAG's typical failures:
 
 | Failure in basic RAG | What advanced does |
 |---|---|
@@ -12,11 +12,11 @@ Same use case and grounding contract as [`basic/`](../basic/README.md): **cited 
 | One long document crowds out others | Per-document candidate cap |
 
 ## Stack
-Python 3.12, `uv`, FastAPI, Pydantic v2 · Weaviate 1.38 (ports **8081/50052**, so it runs beside `basic/`) · `text-embedding-3-small` · OpenAI Responses API: `gpt-5.4-nano` for planning and reranking, `gpt-5.4-mini` for answers · pytest, testcontainers, ruff, mypy `--strict`.
+Python 3.12, `uv`, FastAPI, Pydantic v2 · Weaviate 1.38 (ports **8081/50052**, so it runs beside `basic-rag/`) · `text-embedding-3-small` · OpenAI Responses API: `gpt-5.4-nano` for planning and reranking, `gpt-5.4-mini` for answers · pytest, testcontainers, ruff, mypy `--strict`.
 
 ## Quick start
 ```bash
-cd advanced
+cd advanced-rag
 cp .env.example .env              # only OPENAI_API_KEY is required
 uv sync
 docker compose up -d --wait weaviate
@@ -60,7 +60,7 @@ The golden set has 60 questions: basic's 50 with network hints removed, plus 5 m
 
 ## Layout
 ```
-advanced/
+advanced-rag/
 ├── CLAUDE.md, docs/architecture.md
 ├── src/advanced/
 │   ├── rag.py          orchestration: plan → retrieve → rerank → answer

@@ -4,7 +4,7 @@
 Turn approved policy documents into scrubbed Weaviate chunks **and** grounded knowledge-graph facts, keeping both stores in step.
 
 ## Owns
-- `loaders.py`, `scrub.py`, `metadata.py`, `chunker.py`: same contracts as `basic/` (heading-aware chunks, PAN/PII scrub first, reason-code regex).
+- `loaders.py`, `scrub.py`, `metadata.py`, `chunker.py`: same contracts as `basic-rag/` (heading-aware chunks, PAN/PII scrub first, reason-code regex).
 - `store.py`: `ChunkStore` / `WeaviateChunkStore` (sync, typed props).
 - `extract.py` + `prompts/extract_v{n}.md`: the `FactExtractor` protocol, `LLMFactExtractor` (fast model), `guard()`, `extract_all()` (bounded concurrency).
 - `graph_store.py`: the `GraphStore` protocol and `Neo4jGraphStore` (write Cypher constants, one transaction per chunk).

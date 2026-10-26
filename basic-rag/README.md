@@ -2,7 +2,7 @@
 
 Payments operations analysts ask dispute questions like *"What evidence defeats a Visa 10.4 dispute?"* or *"What is the Mastercard 4853 response window?"*. The service retrieves approved policy chunks from **Weaviate** and returns an answer from **OpenAI** where every claim is **cited**. If the sources don't cover the question, it refuses.
 
-Scope: one retrieval step, then one generation step. No query rewriting, reranking, agents, or memory; those belong to `../advanced/`.
+Scope: one retrieval step, then one generation step. No query rewriting, reranking, agents, or memory; those belong to `../advanced-rag/`.
 
 ## Stack
 | Concern | Choice |
@@ -16,7 +16,7 @@ Scope: one retrieval step, then one generation step. No query rewriting, reranki
 
 ## Quick start
 ```bash
-cd basic
+cd basic-rag
 cp .env.example .env            # add OPENAI_API_KEY (the only required value)
 uv sync
 docker compose up -d --wait weaviate
@@ -58,7 +58,7 @@ The corpus in `data/corpus/` is **synthetic** (made-up summaries, not card-netwo
 
 ## Layout
 ```
-basic/
+basic-rag/
 ├── CLAUDE.md               Claude Code instructions for this project
 ├── docs/architecture.md    data flow, schema, NFRs
 ├── src/basic/              config, domain, vectordb, ingestion/, retrieval/, generation/, api/

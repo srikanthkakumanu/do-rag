@@ -1,6 +1,6 @@
 # Hybrid RAG: Dispute & Chargeback Policy Assistant (vectors + knowledge graph)
 
-Same use case and grounding contract as [`basic/`](../basic/README.md): **cited answers or a refusal**. It adds a **Neo4j knowledge graph** of reason codes, deadlines, evidence, and categories next to **Weaviate** vector search. That covers what top-k text retrieval structurally can't:
+Same use case and grounding contract as [`basic-rag/`](../basic-rag/README.md): **cited answers or a refusal**. It adds a **Neo4j knowledge graph** of reason codes, deadlines, evidence, and categories next to **Weaviate** vector search. That covers what top-k text retrieval structurally can't:
 
 | Question | Vector-only RAG | Hybrid |
 |---|---|---|
@@ -19,7 +19,7 @@ Python 3.12, `uv`, FastAPI, Pydantic v2 · Weaviate 1.38 (ports **8082/50053**) 
 
 ## Quick start
 ```bash
-cd hybrid
+cd hybrid-rag
 cp .env.example .env               # only OPENAI_API_KEY is required
 uv sync
 docker compose up -d --wait        # Weaviate + Neo4j
@@ -56,7 +56,7 @@ Live ingestion extracted 45 facts. After a prompt fix, the deadlines were all co
 
 ## Layout
 ```
-hybrid/
+hybrid-rag/
 ├── CLAUDE.md, docs/architecture.md
 ├── src/hybrid/
 │   ├── rag.py          orchestration: (graph plan ‖ vector search) → facts → answer

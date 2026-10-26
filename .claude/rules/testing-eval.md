@@ -1,11 +1,11 @@
 ---
 paths:
-  - "basic/tests/**"
-  - "basic/eval/**"
-  - "advanced/tests/**"
-  - "advanced/eval/**"
-  - "hybrid/tests/**"
-  - "hybrid/eval/**"
+  - "basic-rag/tests/**"
+  - "basic-rag/eval/**"
+  - "advanced-rag/tests/**"
+  - "advanced-rag/eval/**"
+  - "hybrid-rag/tests/**"
+  - "hybrid-rag/eval/**"
 ---
 # Testing & evaluation (all variants)
 

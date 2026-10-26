@@ -1,13 +1,13 @@
 ---
 paths:
-  - "hybrid/src/hybrid/ingestion/**"
-  - "hybrid/src/hybrid/retrieval/**"
-  - "hybrid/src/hybrid/vectordb.py"
-  - "hybrid/migrations/**"
+  - "hybrid-rag/src/hybrid/ingestion/**"
+  - "hybrid-rag/src/hybrid/retrieval/**"
+  - "hybrid-rag/src/hybrid/vectordb.py"
+  - "hybrid-rag/migrations/**"
 ---
-# Weaviate conventions (hybrid/)
+# Weaviate conventions (hybrid-rag/)
 
-The vector side matches `basic/`. Schema details live in `hybrid/docs/architecture.md`.
+The vector side matches `basic-rag/`. Schema details live in `hybrid-rag/docs/architecture.md`.
 
 ## Client
 - IMPORTANT: Use only the **v4 client** collections API (`client.collections.use(name)`); never v3 patterns (`client.query.get`, `weaviate.Client`).
@@ -26,5 +26,5 @@ The vector side matches `basic/`. Schema details live in `hybrid/docs/architectu
 - The pipeline reports which chunks were written, re-superseded, or deleted, so `graph_store` applies the same changes.
 
 ## Schema
-- Change it only through `hybrid/migrations/NNNN_<name>.py` (idempotent). The same runner creates the Neo4j constraints.
+- Change it only through `hybrid-rag/migrations/NNNN_<name>.py` (idempotent). The same runner creates the Neo4j constraints.
 - `text2vec-openai` on `content` and `doc_title`. Changing the embedding model needs a new collection and a full re-index.

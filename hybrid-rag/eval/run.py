@@ -1,6 +1,6 @@
 """Offline quality gate: run the golden set through retrieval + generation.
 
-Needs running Weaviate + Neo4j with the corpus ingested and OPENAI_API_KEY in hybrid/.env.
+Needs running Weaviate + Neo4j with the corpus ingested and OPENAI_API_KEY in hybrid-rag/.env.
 Usage: uv run python -m eval.run [--report eval/reports/<date>.json]
 """
 

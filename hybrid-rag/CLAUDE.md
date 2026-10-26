@@ -1,9 +1,9 @@
-# hybrid/: Hybrid RAG (vector + knowledge graph), Dispute & Chargeback Policy Assistant
+# hybrid-rag/: Hybrid RAG (vector + knowledge graph), Dispute & Chargeback Policy Assistant
 
 ## Mission
-Same users, corpus, and grounding contract as `basic/`: **cited or refused**. Vector search finds prose; a **knowledge graph** answers aggregate questions top-k misses ("Which codes give merchants 45 days?").
+Same users, corpus, and grounding contract as `basic-rag/`: **cited or refused**. Vector search finds prose; a **knowledge graph** answers aggregate questions top-k misses ("Which codes give merchants 45 days?").
 
-Independent project: its own `pyproject.toml`, `.env`, Weaviate (8082/50053), Neo4j (7475/7688), and corpus copy. Never import from `basic/` or `advanced/`.
+Independent project: its own `pyproject.toml`, `.env`, Weaviate (8082/50053), Neo4j (7475/7688), and corpus copy. Never import from `basic-rag/` or `advanced-rag/`.
 
 ## Pipeline (`src/hybrid/rag.py`)
 1. In parallel: **graph plan** (LLM, guarded: codes, networks, fact kinds, days, category) and **vector search** (Weaviate hybrid, like basic). A plan with no graph signal skips the graph; it never refuses.
@@ -22,7 +22,7 @@ Ingestion: an LLM **extracts facts** from chunks with reason codes; a fact is ke
 | LLMs | OpenAI Responses API: `gpt-5.4-nano` extraction and graph plan, `gpt-5.4-mini` answer (only `OPENAI_API_KEY` required) |
 | Quality | pytest, testcontainers (Weaviate + Neo4j), ruff, mypy `--strict` |
 
-## Commands (run from `hybrid/`)
+## Commands (run from `hybrid-rag/`)
 ```bash
 uv sync && docker compose up -d --wait
 uv run python -m migrations.apply            # Weaviate schema + Neo4j constraints

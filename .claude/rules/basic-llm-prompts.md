@@ -1,8 +1,8 @@
 ---
 paths:
-  - "basic/src/basic/generation/**"
+  - "basic-rag/src/basic/generation/**"
 ---
-# LLM & prompt conventions (basic/, OpenAI)
+# LLM & prompt conventions (basic-rag/, OpenAI)
 
 ## Client
 - Use the official `openai` SDK with one `AsyncOpenAI` instance, injected through a `Protocol`. Never construct it per request.

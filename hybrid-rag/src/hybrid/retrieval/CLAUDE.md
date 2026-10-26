@@ -1,7 +1,7 @@
 # retrieval/
 
 ## Purpose
-The vector half of hybrid: return the top-k current policy chunks for the scrubbed question from Weaviate. Same contract as `basic/`; graph lookups live in `graph/`.
+The vector half of hybrid: return the top-k current policy chunks for the scrubbed question from Weaviate. Same contract as `basic-rag/`; graph lookups live in `graph/`.
 
 ## Owns
 - `retriever.py`: `RetrievalQuery`, the `Retriever` protocol, `WeaviateRetriever` (async hybrid BM25 + vector).
@@ -26,7 +26,7 @@ class RetrievalQuery(BaseModel):
 - `[]` on no match. `RetrievalError` only on infrastructure failure.
 
 ## Don't
-- Don't add query rewriting, reranking, or multi-query here (that's `advanced/`).
+- Don't add query rewriting, reranking, or multi-query here (that's `advanced-rag/`).
 - Don't merge graph facts in this module; fusion happens in the prompt (`generation/assembler.py`).
 - Don't leak Weaviate SDK types.
 

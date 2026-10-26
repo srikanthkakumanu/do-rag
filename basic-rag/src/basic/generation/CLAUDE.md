@@ -32,7 +32,7 @@ async def answer_question(question: str, chunks: list[RetrievedChunk], *,
 ## Don't
 - Don't hardcode the model ID or the refusal string; read them from `Settings` and `basic/domain.py`.
 - Don't stream partial answers. Validation needs the full response.
-- Don't add memory, tools, or multi-turn state (that's `advanced/`).
+- Don't add memory, tools, or multi-turn state (that's `advanced-rag/`).
 
 ## Test
 - Unit, with `FakeAnswerer` (`tests/fakes.py`): the empty-chunks short-circuit, hallucinated citation, unsupported number, retry then refusal, budget drop, and prompt injection kept inside `<source>`.

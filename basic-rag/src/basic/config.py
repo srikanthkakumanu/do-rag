@@ -12,7 +12,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 type Vectorizer = Literal["text2vec-openai", "none"]
 
-# This project's own .env (basic/.env), independent of the working directory.
+# This project's own .env (basic-rag/.env), independent of the working directory.
 PROJECT_ENV_FILE: Final = Path(__file__).resolve().parents[2] / ".env"
 
 

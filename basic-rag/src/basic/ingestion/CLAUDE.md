@@ -29,7 +29,7 @@ Ingestion is an offline batch job, so it uses the sync client; request paths sta
 ## Don't
 - Don't call OpenAI directly. Weaviate vectorizes server-side.
 - Don't log chunk text; log `doc_id` and counts only.
-- Don't add LLM-based chunking or summarization (that's an `advanced/` concern).
+- Don't add LLM-based chunking or summarization (that's an `advanced-rag/` concern).
 
 ## Test
 - Unit: `tests/unit/ingestion/` with an in-memory `ChunkStore`.

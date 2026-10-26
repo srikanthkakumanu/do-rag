@@ -1,6 +1,6 @@
 """Offline quality gate: run the golden set through retrieval + generation.
 
-Needs a running Weaviate with the corpus ingested and a valid OpenAI key in advanced/.env.
+Needs a running Weaviate with the corpus ingested and a valid OpenAI key in advanced-rag/.env.
 Usage: uv run python -m eval.run [--report eval/reports/<date>.json]
 """
 

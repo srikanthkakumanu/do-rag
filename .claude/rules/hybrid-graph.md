@@ -1,14 +1,14 @@
 ---
 paths:
-  - "hybrid/src/hybrid/graph/**"
-  - "hybrid/src/hybrid/graphdb.py"
-  - "hybrid/src/hybrid/ingestion/extract.py"
-  - "hybrid/src/hybrid/ingestion/graph_store.py"
-  - "hybrid/migrations/**"
+  - "hybrid-rag/src/hybrid/graph/**"
+  - "hybrid-rag/src/hybrid/graphdb.py"
+  - "hybrid-rag/src/hybrid/ingestion/extract.py"
+  - "hybrid-rag/src/hybrid/ingestion/graph_store.py"
+  - "hybrid-rag/migrations/**"
 ---
-# Knowledge graph conventions (hybrid/, Neo4j)
+# Knowledge graph conventions (hybrid-rag/, Neo4j)
 
-Ontology and templates live in `hybrid/docs/architecture.md`. Read it before changing labels, relationships, or queries.
+Ontology and templates live in `hybrid-rag/docs/architecture.md`. Read it before changing labels, relationships, or queries.
 
 ## Driver
 - Use the official `neo4j` driver only, through `hybrid/graphdb.py`: a sync driver for ingestion and migrations, `AsyncDriver` for the API. Create it once and close it at shutdown.

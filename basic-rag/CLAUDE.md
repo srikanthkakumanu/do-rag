@@ -1,9 +1,9 @@
-# basic/: Basic RAG, Dispute & Chargeback Policy Assistant
+# basic-rag/: Basic RAG, Dispute & Chargeback Policy Assistant
 
 ## Mission
 Payments operations analysts ask dispute questions ("What evidence defeats Visa 10.4?", "Mastercard 4853 response window?"). The service retrieves approved policy chunks from Weaviate and returns a **cited** answer, or refuses. Wrong answers cost chargebacks, so grounding beats helpfulness.
 
-Scope is single-shot retrieve → generate. No agents, query rewriting, reranking, or graph. Those belong to `advanced/`. "Hybrid" here means Weaviate's BM25 + vector query mode, not the `hybrid/` variant.
+Scope is single-shot retrieve → generate. No agents, query rewriting, reranking, or graph. Those belong to `advanced-rag/`. "Hybrid" here means Weaviate's BM25 + vector query mode, not the `hybrid-rag/` variant.
 
 ## Stack
 | Concern | Choice |
@@ -17,7 +17,7 @@ Scope is single-shot retrieve → generate. No agents, query rewriting, rerankin
 
 Config keys are listed in `.env.example`; only `OPENAI_API_KEY` is required (models default in `config.py`). You create the real `.env`; it is git-ignored and never read by Claude.
 
-## Commands (run from `basic/`)
+## Commands (run from `basic-rag/`)
 ```bash
 uv sync                                   # install
 docker compose up -d weaviate             # local Weaviate on :8080

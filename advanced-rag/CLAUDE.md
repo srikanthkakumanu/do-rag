@@ -1,9 +1,9 @@
-# advanced/: Advanced RAG, Dispute & Chargeback Policy Assistant
+# advanced-rag/: Advanced RAG, Dispute & Chargeback Policy Assistant
 
 ## Mission
-Same users, corpus, and grounding contract as `basic/`, but it handles what single-shot RAG misses: follow-up questions, implied networks ("window for 4853?"), cross-network comparisons, and near-miss retrieval. Every answer is still **cited or refused**.
+Same users, corpus, and grounding contract as `basic-rag/`, but it handles what single-shot RAG misses: follow-up questions, implied networks ("window for 4853?"), cross-network comparisons, and near-miss retrieval. Every answer is still **cited or refused**.
 
-Independent project: its own `pyproject.toml`, `.env`, Weaviate (ports 8081/50052), and corpus copy. Never import from `basic/` or `hybrid/`.
+Independent project: its own `pyproject.toml`, `.env`, Weaviate (ports 8081/50052), and corpus copy. Never import from `basic-rag/` or `hybrid-rag/`.
 
 ## Pipeline (`src/advanced/rag.py`)
 1. **Plan** (`query/`): the LLM condenses history into a standalone question, adds up to 3 sub-queries, extracts network and codes (guarded), and flags out-of-scope questions, which are refused before retrieval.
@@ -20,7 +20,7 @@ Independent project: its own `pyproject.toml`, `.env`, Weaviate (ports 8081/5005
 | LLMs | OpenAI Responses API: `gpt-5.4-nano` plan/rerank, `gpt-5.4-mini` answer (defaults; only `OPENAI_API_KEY` required) |
 | Quality | pytest, testcontainers, ruff, mypy `--strict` |
 
-## Commands (run from `advanced/`)
+## Commands (run from `advanced-rag/`)
 ```bash
 uv sync && docker compose up -d --wait weaviate
 uv run python -m migrations.apply && uv run advanced ingest data/corpus

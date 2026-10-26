@@ -28,7 +28,7 @@ class RetrievalQuery(BaseModel):
 - `alpha`, `top_k`, `min_score`, and `max_vector_distance` come from `Settings`. Thresholding happens here.
 
 ## Don't
-- Don't rewrite or expand queries, rerank, or make multiple retrieval passes (that's `advanced/`).
+- Don't rewrite or expand queries, rerank, or make multiple retrieval passes (that's `advanced-rag/`).
 - Don't return Weaviate SDK types beyond this module; map them to `RetrievedChunk`.
 - Don't catch and hide connection errors. Fail fast with context.
 

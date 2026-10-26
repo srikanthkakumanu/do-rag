@@ -1,12 +1,12 @@
 ---
 paths:
-  - "advanced/src/advanced/ingestion/**"
-  - "advanced/src/advanced/retrieval/**"
-  - "advanced/migrations/**"
+  - "advanced-rag/src/advanced/ingestion/**"
+  - "advanced-rag/src/advanced/retrieval/**"
+  - "advanced-rag/migrations/**"
 ---
-# Weaviate conventions (advanced/)
+# Weaviate conventions (advanced-rag/)
 
-Schema and chunk sizes live in `advanced/docs/architecture.md`. Read it before changing either.
+Schema and chunk sizes live in `advanced-rag/docs/architecture.md`. Read it before changing either.
 
 ## Two collections
 - `PolicyChunk`: **children** (about 220 tokens), vectorized and hybrid-searched. Each carries `parent_id`.
@@ -15,7 +15,7 @@ Schema and chunk sizes live in `advanced/docs/architecture.md`. Read it before c
 
 ## Client
 - Use only the **v4 client** collections API (`client.collections.use(name)`); never v3 patterns.
-- Connect only through `advanced/vectordb.py` (`connect_sync` for ingestion, `make_async` for the API). Local ports are 8081 (HTTP) and 50052 (gRPC), so it runs beside `basic/`.
+- Connect only through `advanced/vectordb.py` (`connect_sync` for ingestion, `make_async` for the API). Local ports are 8081 (HTTP) and 50052 (gRPC), so it runs beside `basic-rag/`.
 - For writes, use typed handles: `data_model_properties=PolicyChunkProps` / `PolicySectionProps`.
 
 ## Querying
@@ -30,5 +30,5 @@ Schema and chunk sizes live in `advanced/docs/architecture.md`. Read it before c
 - Batch with `fixed_size(100)` and fail the run on any `failed_objects`. DATE values cap at year 2262, so use `NOT_SUPERSEDED` (2199-12-31).
 
 ## Schema
-- Change it only through `advanced/migrations/NNNN_<name>.py` (idempotent).
+- Change it only through `advanced-rag/migrations/NNNN_<name>.py` (idempotent).
 - Changing the embedding model or vectorized properties needs a new collection and a full re-index.
